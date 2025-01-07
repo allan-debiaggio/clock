@@ -8,8 +8,29 @@ class GrannyClock :
         self.seconds = seconds
         self.correcting_time()
 
-    def display_time(self):
+    def display_time(self, AMPM):
         clock = datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(self.hours, self.minutes, self.seconds))
+        if AMPM :
+            if self.hours == 0 :
+                hours = 12
+                clock = datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(hours, self.minutes, self.seconds))
+                clock = str(clock)
+                clock += " AM"
+            elif self.hours == 12 :
+                hours = 12
+                clock = datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(hours, self.minutes, self.seconds))
+                clock = str(clock)
+                clock += " PM"
+            elif self.hours >= 1 and self.hours < 12 :
+                clock = datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(self.hours, self.minutes, self.seconds))
+                clock = str(clock)
+                clock += " AM"
+            elif self.hours >= 13 and self.hours <= 23 :
+                hours = self.hours % 12
+                clock = datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(hours % 12, self.minutes, self.seconds))
+                clock = str(clock)
+                clock += " PM"
+
         print(clock)
 
     def correcting_time(self):
@@ -36,9 +57,15 @@ def main():
     minutes = int(input("rentrez le nombre de minutes\n"))
     seconds = int(input("rentrez le nombre de secondes\n"))
     granny_clock = GrannyClock(hours, minutes, seconds)
+    AMPM = False
+    print("Voulez-vous un affichage 12 heures ? o/n")
+    affichage = input()
+    if affichage == "o" or affichage == "O" :
+        AMPM = True
+
 
     while True :
-        granny_clock.display_time()
+        granny_clock.display_time(AMPM)
         sleep(1)
         granny_clock.seconds += 1
         granny_clock.correcting_time()
