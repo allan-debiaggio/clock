@@ -9,6 +9,10 @@ class GrannyClock :
         self.correcting_time()
 
     def display_time(self, AMPM):
+        """
+        displays clock according to time format
+        AMPM enables to choose between 12 hours display and 24 hours display
+        """
         clock = datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(self.hours, self.minutes, self.seconds))
         if AMPM :
             if self.hours == 0 :
@@ -57,6 +61,8 @@ def main():
     minutes = int(input("rentrez le nombre de minutes\n"))
     seconds = int(input("rentrez le nombre de secondes\n"))
     granny_clock = GrannyClock(hours, minutes, seconds)
+
+    # boolean used to choose between 12hours and 24hours display
     AMPM = False
     print("Voulez-vous un affichage 12 heures ? o/n")
     affichage = input()
