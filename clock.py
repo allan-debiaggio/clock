@@ -124,27 +124,28 @@ def main():
 
     while True :
 
-        try :
-
-            if custom_time :
-                granny_clock.display_custom_time(AMPM)
-                granny_clock.seconds += 1
-                granny_clock.correcting_custom_time()
-        
+        if custom_time :
+            granny_clock.display_custom_time(AMPM)
+            granny_clock.seconds += 1
+            granny_clock.correcting_custom_time()
+    
+        else :
+            horloge = datetime.datetime.now()
+            formatted=""
+            if AMPM :
+                formatted = horloge.strftime("%I:%M:%S %p")
             else :
-                horloge = datetime.datetime.now()
-                formatted=""
-                if AMPM :
-                    formatted = horloge.strftime("%I:%M:%S %p")
-                else :
-                    formatted = horloge.strftime("%H:%M:%S")
-                print(formatted)
+                formatted = horloge.strftime("%H:%M:%S")
+            print(formatted)
 
-#            time.sleep(1)
-            sleep(1)
-            system("clear")
+        sleep(1)
+        system("clear")
 
-        except KeyboardInterrupt :
+        if KeyboardInterrupt :
             fonctions = menu(AMPM, custom_time, granny_clock, alarme, alarm)
+
+
+        ##except KeyboardInterrupt :
+        #    fonctions = menu(AMPM, custom_time, granny_clock, alarme, alarm)
 
 main()
