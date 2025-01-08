@@ -138,14 +138,13 @@ def main():
                 formatted = horloge.strftime("%H:%M:%S")
             print(formatted)
 
+        if alarm :
+            if not custom_time :
+                granny_clock = GrannyClock(  int(horloge.strftime("%H")), int(horloge.strftime("%M")), int(horloge.strftime("%S")) )
+            granny_clock.check_alarm(alarme)
+
         sleep(1)
         system("clear")
 
-        if KeyboardInterrupt :
-            fonctions = menu(AMPM, custom_time, granny_clock, alarme, alarm)
-
-
-        ##except KeyboardInterrupt :
-        #    fonctions = menu(AMPM, custom_time, granny_clock, alarme, alarm)
 
 main()
