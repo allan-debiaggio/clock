@@ -21,24 +21,13 @@ class GrannyClock :
         clock = datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(self.hours, self.minutes, self.seconds))
         if AMPM :
             if self.hours == 0 :
-                hours = 12
-                clock = datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(hours, self.minutes, self.seconds))
-                clock = str(clock)
-                clock += " AM"
+                clock = str(datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(12, self.minutes, self.seconds))) + " AM"
             elif self.hours == 12 :
-                hours = 12
-                clock = datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(hours, self.minutes, self.seconds))
-                clock = str(clock)
-                clock += " PM"
+                clock = str(datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(12, self.minutes, self.seconds))) + " PM"
             elif self.hours >= 1 and self.hours < 12 :
-                clock = datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(self.hours, self.minutes, self.seconds))
-                clock = str(clock)
-                clock += " AM"
+                clock = str(datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(self.hours, self.minutes, self.seconds))) + " AM"
             elif self.hours >= 13 and self.hours <= 23 :
-                hours = self.hours % 12
-                clock = datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(hours % 12, self.minutes, self.seconds))
-                clock = str(clock)
-                clock += " PM"
+                clock = str(datetime.time.fromisoformat("{:02}:{:02}:{:02}".format(self.hours % 12, self.minutes, self.seconds))) + " PM"
 
         print(clock)
 
