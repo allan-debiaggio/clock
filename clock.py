@@ -91,6 +91,45 @@ def menu(AMPM, custom_time, granny_clock, alarme, alarm):
     return (AMPM, custom_time, granny_clock, alarme, alarm)
 
 
+def programme_run(AMPM, custom_time, granny_clock, alarme, alarm):
+
+    try :
+
+        fonctions = menu(AMPM, custom_time, granny_clock, alarme, alarm)
+        AMPM = fonctions[0]
+        custom_time = fonctions[1]
+        granny_clock = fonctions[2]
+        alarme = fonctions[3]
+        alarm = fonctions[4]
+
+        while True :
+
+            if custom_time :
+                granny_clock.display_custom_time(AMPM)
+                granny_clock.seconds += 1
+                granny_clock.correcting_custom_time()
+        
+            else :
+                horloge = datetime.datetime.now()
+                formatted=""
+                if AMPM :
+                    formatted = horloge.strftime("%I:%M:%S %p")
+                else :
+                    formatted = horloge.strftime("%H:%M:%S")
+                print(formatted)
+
+            if alarm :
+                if not custom_time :
+                    granny_clock = GrannyClock(  int(horloge.strftime("%H")), int(horloge.strftime("%M")), int(horloge.strftime("%S")) )
+                granny_clock.check_alarm(alarme)
+
+            sleep(1)
+            system("clear")
+
+    except KeyboardInterrupt :
+        programme_run(AMPM, custom_time, granny_clock, alarme, alarm)
+
+
 def main():
 
     granny_clock = None
@@ -104,36 +143,8 @@ def main():
     # boolean used to choose between 12hours and 24hours display
     AMPM = False
 
-    fonctions = menu(AMPM, custom_time, granny_clock, alarme, alarm)
-    AMPM = fonctions[0]
-    custom_time = fonctions[1]
-    granny_clock = fonctions[2]
-    alarme = fonctions[3]
-    alarm = fonctions[4]
+    programme_run(AMPM, custom_time, granny_clock, alarme, alarm)
 
-    while True :
-
-        if custom_time :
-            granny_clock.display_custom_time(AMPM)
-            granny_clock.seconds += 1
-            granny_clock.correcting_custom_time()
-    
-        else :
-            horloge = datetime.datetime.now()
-            formatted=""
-            if AMPM :
-                formatted = horloge.strftime("%I:%M:%S %p")
-            else :
-                formatted = horloge.strftime("%H:%M:%S")
-            print(formatted)
-
-        if alarm :
-            if not custom_time :
-                granny_clock = GrannyClock(  int(horloge.strftime("%H")), int(horloge.strftime("%M")), int(horloge.strftime("%S")) )
-            granny_clock.check_alarm(alarme)
-
-        sleep(1)
-        system("clear")
 
 
 main()
