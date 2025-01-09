@@ -63,10 +63,11 @@ def menu(AMPM, custom_time, granny_clock, alarme, alarm):
     print("Tapez 2 pour régler l'heure")
     print("Tapez 3 pour régler l'alarme")
     print("Tapez 4 pour basculer en affichage 12h ou affichage 24h")
+    print("Tapez 6 pour arrêter l'horloge")
     menu = input()
 
-    while menu not in ["1", "2", "3", "4"]:
-        print("Veuillez renter un nombre : 1 ou 2 ou 3 ou  4")
+    while menu not in ["1", "2", "3", "4", "6"]:
+        print("Veuillez renter un nombre : 1 ou 2 ou 3 ou 4 ou 6")
         menu = input()    
 
     if menu == "1":
@@ -91,6 +92,8 @@ def menu(AMPM, custom_time, granny_clock, alarme, alarm):
             AMPM = True
         elif format_heure == "2":
             AMPM = False
+    elif menu == "6":
+        return
 
     return (AMPM, custom_time, granny_clock, alarme, alarm)
 
