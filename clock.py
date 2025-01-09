@@ -1,56 +1,82 @@
-# Function 1 : Display time
-# Function 2 : Set time
-# Function 3 : Set Alarm
-# Function 4 opt : AM / PM Time
-# Function 5 opt : Sleep time until user input
-# Datetime object is really useful, should use it
-
 from datetime import datetime, timedelta
 import time
 import os
+import threading
 
 current_time = None
 user_alarm = None
+AMPM = None
+stop_clock = False
+clock_thread = None  # Initialize a global variable to keep track of the clock thread
+
 
 def menu():
     global current_time
+    global AMPM
+    global stop_clock
+    global clock_thread
     try:
         while True:
-            select = input("Menu: \n Enter 1 for the clock, 2 for setting time, 3 for setting an alarm, 6 to quit: ")
+            print("\nMenu:")
+            print("1. Set time")
+            print("2. Set an alarm")
+            print("3. Change time format (12h/24h)")
+            print("4. Display time")
+            print("5. Sleep mode")
+            print("6. Quit")
+            select = input("Enter your choice: ")
+
             if select == "1":
-                display_time()
-            elif select == "2":
                 set_time()
-            elif select == "3":
+            elif select == "2":
                 set_alarm()
+            elif select == "3":
+                time_format()
+            elif select == "4":
+                display_time()
+            elif select == "5" :
+                sleep_mode()
             elif select == "6":
-               print("Exiting clock program.")
-               break
+                stop_clock_thread()
+                print("Exiting clock program.")
+                break
             else:
-                print("I did not understand your request.")
-            quit
+                print("Invalid option. Please try again.")
     except KeyboardInterrupt:
+        stop_clock_thread()
         print("\nExiting clock program.")
+
+
+def background_clock():
+    global current_time
+    global user_alarm
+    global stop_clock
+
+    if current_time is None:
+        current_time = datetime.now()
+
+    while not stop_clock:
+        current_time += timedelta(seconds=1)
+        # Check for alarm
+        if user_alarm and current_time.strftime("%H:%M:%S") == user_alarm:
+            print("\nALARM! DRINNNNG DRINNNNG!")
+            user_alarm = None  # Reset alarm after it rings
+        time.sleep(1)
+
 
 def display_time():
     global current_time
-    global user_alarm
     try:
-        if current_time is None:
-            current_time = datetime.now()
         while True:
-            os.system("cls" if os.name == "nt" else "clear")
-            print("Current Time:", current_time.strftime("%H:%M:%S"))
-            
-            # Check for alarm
-            if user_alarm and current_time.strftime("%H:%M:%S") == user_alarm:
-                print("ALARM! DINNNNG DINNNNG!")
-                user_alarm = None  # Reset alarm after it rings
-            
+            os.system("cls")  # Clear the console
+            if AMPM is None or not AMPM:
+                print("Current Time:", current_time.strftime("%H:%M:%S"))
+            else:
+                print("Current Time:", current_time.strftime("%I:%M:%S %p"))
             time.sleep(1)
-            current_time += timedelta(seconds=1)  # Increments current time
     except KeyboardInterrupt:
-      print("Going back to menu...")
+        print("\nReturning to menu...")
+
 
 def set_time():
     global current_time
@@ -61,7 +87,8 @@ def set_time():
     except ValueError:
         print("Invalid time format. Please use HH:MM:SS.")
     except KeyboardInterrupt:
-        menu()
+        print("Going back to menu...")
+
 
 def set_alarm():
     global user_alarm
@@ -71,6 +98,51 @@ def set_alarm():
     except ValueError:
         print("Invalid time format. Please use HH:MM:SS.")
     except KeyboardInterrupt:
-        menu()
+        print("Going back to menu...")
+
+
+def time_format():
+    global AMPM
+    try:
+        choice = input("Select 1 for 24-hour format or 2 for 12-hour format: ")
+        if choice == "1":
+            AMPM = False
+            print("Switched to 24-hour format.")
+        elif choice == "2":
+            AMPM = True
+            print("Switched to 12-hour format.")
+        else:
+            print("Invalid choice.")
+    except KeyboardInterrupt:
+        print("Going back to menu...")
+
+
+def stop_clock_thread():
+    global stop_clock
+    global clock_thread
+    stop_clock = True
+    if clock_thread is not None:
+        clock_thread.join()  # Wait for the thread to finish before exiting
+
+
+def sleep_mode():
+    global stop_clock
+    global clock_thread
+    choice = input("Type 1 to enter sleep mode and 2 to reactivate the clock: ")
+    if choice == "1":
+        stop_clock = True
+    elif choice == "2":
+        stop_clock = False
+        if clock_thread is None or not clock_thread.is_alive():  # Start a new thread if necessary
+            clock_thread = threading.Thread(target=background_clock, daemon=True)
+            clock_thread.start()
+    else:
+        print("I didn't understand your request.")
+
+
+# Start the clock in a separate thread
+stop_clock = False
+clock_thread = threading.Thread(target=background_clock, daemon=True)
+clock_thread.start()
 
 menu()
