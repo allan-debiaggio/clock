@@ -57,7 +57,7 @@ class GrannyClock :
             print("C'est l'heure !")
 
 def menu(AMPM, custom_time, granny_clock, alarme, alarm):
-    
+
     print("Menu de l'horloge.\nQue voulez-vous faire ?")
     print("Tapez 1 pour initialiser l'horloge")
     print("Tapez 2 pour régler l'heure")
@@ -65,9 +65,12 @@ def menu(AMPM, custom_time, granny_clock, alarme, alarm):
     print("Tapez 4 pour basculer en affichage 12h ou affichage 24h")
     menu = input()
 
+    while menu not in ["1", "2", "3", "4"]:
+        print("Veuillez renter un nombre : 1 ou 2 ou 3 ou  4")
+        menu = input()    
+
     if menu == "1":
         custom_time = False
-
     elif menu == "2" :
         custom_time = True
         hours = int(input("rentrez le nombre d'heures\n"))
@@ -88,6 +91,7 @@ def menu(AMPM, custom_time, granny_clock, alarme, alarm):
             AMPM = True
         elif format_heure == "2":
             AMPM = False
+
     return (AMPM, custom_time, granny_clock, alarme, alarm)
 
 
@@ -144,7 +148,6 @@ def main():
     AMPM = False
 
     programme_run(AMPM, custom_time, granny_clock, alarme, alarm)
-
 
 
 main()
