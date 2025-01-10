@@ -55,7 +55,7 @@ class GrannyClock :
         if self.hours == autre.hours and self.minutes == autre.minutes and self.seconds == autre.seconds :
             print("C'est l'heure !")
 
-def menu(AMPM, custom_time, granny_clock, alarme, alarm, finished):
+def menu(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished):
 
     """
     features a general menu for the clock
@@ -91,7 +91,7 @@ def menu(AMPM, custom_time, granny_clock, alarme, alarm, finished):
         hours = int(input("rentrez le nombre d'heures\n"))
         minutes = int(input("rentrez le nombre de minutes\n"))
         seconds = int(input("rentrez le nombre de secondes\n"))
-        alarme = GrannyClock(hours, minutes, seconds)
+        granny_alarm = GrannyClock(hours, minutes, seconds)
     elif menu == "4" :
         print("Tapez 1 pour affichage 12h")
         print("Tapez 2 pour affichage 24h")
@@ -103,14 +103,14 @@ def menu(AMPM, custom_time, granny_clock, alarme, alarm, finished):
     elif menu == "6":
         return (None, None, None, None, None, True)
 
-    return (AMPM, custom_time, granny_clock, alarme, alarm, finished)
+    return (AMPM, custom_time, granny_clock, granny_alarm, alarm, finished)
 
 
-def program_run(AMPM, custom_time, granny_clock, alarme, alarm, finished):
+def program_run(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished):
 
     try :
 
-        fonctions = menu(AMPM, custom_time, granny_clock, alarme, alarm, finished)
+        fonctions = menu(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished)
         AMPM = fonctions[0]
         custom_time = fonctions[1]
         granny_clock = fonctions[2]
@@ -151,8 +151,10 @@ def program_run(AMPM, custom_time, granny_clock, alarme, alarm, finished):
 
 def main():
 
+    granny_alarm = None
+
+    # boolean used to tell if we use system clock & datetime object, or custom time
     granny_clock = None
-    alarme = None
 
     # boolean used to turn off the clock - breaking the while True loop
     finished = False
@@ -166,7 +168,7 @@ def main():
     # boolean used to choose between 12hours and 24hours display
     AMPM = False
 
-    program_run(AMPM, custom_time, granny_clock, alarme, alarm, finished)
+    program_run(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished)
 
 
 main()
