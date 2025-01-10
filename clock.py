@@ -106,7 +106,7 @@ def menu(AMPM, custom_time, granny_clock, alarme, alarm, finished):
     return (AMPM, custom_time, granny_clock, alarme, alarm, finished)
 
 
-def programme_run(AMPM, custom_time, granny_clock, alarme, alarm, finished):
+def program_run(AMPM, custom_time, granny_clock, alarme, alarm, finished):
 
     try :
 
@@ -146,7 +146,7 @@ def programme_run(AMPM, custom_time, granny_clock, alarme, alarm, finished):
             system("clear")
 
     except KeyboardInterrupt :
-        programme_run(AMPM, custom_time, granny_clock, alarme, alarm, finished)
+        program_run(AMPM, custom_time, granny_clock, alarme, alarm, finished)
 
 
 def main():
@@ -166,7 +166,7 @@ def main():
     # boolean used to choose between 12hours and 24hours display
     AMPM = False
 
-    programme_run(AMPM, custom_time, granny_clock, alarme, alarm, finished)
+    program_run(AMPM, custom_time, granny_clock, alarme, alarm, finished)
 
 
 main()
