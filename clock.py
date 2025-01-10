@@ -57,6 +57,15 @@ class GrannyClock :
 
 def menu(AMPM, custom_time, granny_clock, alarme, alarm, finished):
 
+    """
+    features a general menu for the clock
+    1 : use system clock to set the time
+    2 : use user input clock to set the time
+    3 : set the alarm time
+    4 : switching between 12 hours display and 24 hours displays
+    6 : turning off the clock
+    """
+
     print("Menu de l'horloge.\nQue voulez-vous faire ?")
     print("Tapez 1 pour initialiser l'horloge")
     print("Tapez 2 pour régler l'heure")
@@ -144,7 +153,11 @@ def main():
 
     granny_clock = None
     alarme = None
+
+    # boolean used to turn off the clock - breaking the while True loop
     finished = False
+
+    # boolean used to check wether we use an alarm, or not
     alarm = False
 
     # boolean used to check wether we use time system or custom time
