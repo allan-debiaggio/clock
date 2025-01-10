@@ -114,7 +114,7 @@ def program_run(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished):
         AMPM = fonctions[0]
         custom_time = fonctions[1]
         granny_clock = fonctions[2]
-        alarme = fonctions[3]
+        granny_alarm = fonctions[3]
         alarm = fonctions[4]
         finished = fonctions[5]
 
@@ -140,20 +140,18 @@ def program_run(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished):
             if alarm :
                 if not custom_time :
                     granny_clock = GrannyClock(  int(horloge.strftime("%H")), int(horloge.strftime("%M")), int(horloge.strftime("%S")) )
-                granny_clock.check_alarm(alarme)
+                granny_clock.check_alarm(granny_alarm)
 
             sleep(1)
             system("clear")
 
     except KeyboardInterrupt :
-        program_run(AMPM, custom_time, granny_clock, alarme, alarm, finished)
+        program_run(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished)
 
 
 def main():
 
     granny_alarm = None
-
-    # boolean used to tell if we use system clock & datetime object, or custom time
     granny_clock = None
 
     # boolean used to turn off the clock - breaking the while True loop
