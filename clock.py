@@ -7,7 +7,7 @@ current_time = None
 user_alarm = None
 AMPM = None
 stop_clock = False
-clock_thread = None  # Initialize a global variable to keep track of the clock thread
+clock_thread = None
 
 
 def menu():
@@ -18,22 +18,22 @@ def menu():
     try:
         while True:
             print("\nMenu:")
-            print("1. Set time")
-            print("2. Set an alarm")
-            print("3. Change time format (12h/24h)")
-            print("4. Display time")
+            print("1. Display time")
+            print("2. Set time")
+            print("3. Set alarm")
+            print("4. Time mode (12h / 24h)")
             print("5. Sleep mode")
             print("6. Quit")
             select = input("Enter your choice: ")
 
             if select == "1":
-                set_time()
-            elif select == "2":
-                set_alarm()
-            elif select == "3":
-                time_format()
-            elif select == "4":
                 display_time()
+            elif select == "2":
+                set_time()
+            elif select == "3":
+                set_alarm()
+            elif select == "4":
+                time_format()
             elif select == "5" :
                 sleep_mode()
             elif select == "6":
@@ -78,7 +78,7 @@ def display_time():
         print("\nReturning to menu...")
 
 
-def set_time():
+def set_time(): 
     global current_time
     try:
         user_time = input("Enter the time to start the clock (HH:MM:SS): ")
@@ -90,7 +90,7 @@ def set_time():
         print("Going back to menu...")
 
 
-def set_alarm():
+def set_alarm(): 
     global user_alarm
     try:
         user_alarm = input("Enter the time you want the alarm to ring (HH:MM:SS): ")
@@ -142,7 +142,8 @@ def sleep_mode():
 
 # Start the clock in a separate thread
 stop_clock = False
-clock_thread = threading.Thread(target=background_clock, daemon=True)
+clock_thread = threading.Thread(target=background_clock, daemon=True) #Daemon used to make the thread close
+# when the main program exits 
 clock_thread.start()
 
 menu()
