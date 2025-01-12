@@ -55,6 +55,23 @@ class GrannyClock :
         if self.hours == autre.hours and self.minutes == autre.minutes and self.seconds == autre.seconds :
             print("C'est l'heure !")
 
+def enter_time():
+        """
+        Create and return a Grannyclock while entering hours, minutes and secods by user input
+        Makes sure clock parameters are valid
+        (ex : 0 <= hours < 24)
+        """
+
+        hours = -1
+        minutes = -1
+        seconds = -1
+        while not (hours >= 0 and hours < 24 and minutes >=0 and minutes < 60 and seconds >=0 and seconds < 60):
+            hours = int(input("rentrez le nombre d'heures\n"))
+            minutes = int(input("rentrez le nombre de minutes\n"))
+            seconds = int(input("rentrez le nombre de secondes\n"))
+        clock = GrannyClock(hours, minutes, seconds)
+        return clock
+
 def menu(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished):
 
     """
@@ -82,16 +99,10 @@ def menu(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished):
         custom_time = False
     elif menu == "2" :
         custom_time = True
-        hours = int(input("rentrez le nombre d'heures\n"))
-        minutes = int(input("rentrez le nombre de minutes\n"))
-        seconds = int(input("rentrez le nombre de secondes\n"))
-        granny_clock = GrannyClock(hours, minutes, seconds)
+        granny_clock = enter_time()
     elif menu == "3":
         alarm = True
-        hours = int(input("rentrez le nombre d'heures\n"))
-        minutes = int(input("rentrez le nombre de minutes\n"))
-        seconds = int(input("rentrez le nombre de secondes\n"))
-        granny_alarm = GrannyClock(hours, minutes, seconds)
+        granny_alarm = enter_time()
     elif menu == "4" :
         print("Tapez 1 pour affichage 12h")
         print("Tapez 2 pour affichage 24h")
@@ -102,14 +113,11 @@ def menu(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished):
             AMPM = False
     elif menu == "6":
         return (None, None, None, None, None, True)
-
     return (AMPM, custom_time, granny_clock, granny_alarm, alarm, finished)
-
 
 def program_run(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished):
 
     try :
-
         fonctions = menu(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished)
         AMPM = fonctions[0]
         custom_time = fonctions[1]
