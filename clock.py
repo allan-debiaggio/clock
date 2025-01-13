@@ -55,33 +55,7 @@ class GrannyClock :
         if self.hours == autre.hours and self.minutes == autre.minutes and self.seconds == autre.seconds :
             print("C'est l'heure !")
 
-def enter_time():
-        """
-        Create and return a Grannyclock while entering hours, minutes and secods by user input
-        Makes sure clock parameters are valid
-        (ex : 0 <= hours < 24)
-        """
-
-        hours = -1
-        minutes = -1
-        seconds = -1
-        while not (hours >= 0 and hours < 24 and minutes >=0 and minutes < 60 and seconds >=0 and seconds < 60):
-            hours = int(input("rentrez le nombre d'heures\n"))
-            minutes = int(input("rentrez le nombre de minutes\n"))
-            seconds = int(input("rentrez le nombre de secondes\n"))
-        clock = GrannyClock(hours, minutes, seconds)
-        return clock
-
-def menu(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished):
-
-    """
-    features a general menu for the clock
-    1 : use system clock to set the time
-    2 : use user input clock to set the time
-    3 : set the alarm time
-    4 : switching between 12 hours display and 24 hours displays
-    6 : turning off the clock
-    """
+def menu(AMPM, custom_time, granny_clock, alarme, alarm, finished):
 
     print("Menu de l'horloge.\nQue voulez-vous faire ?")
     print("Tapez 1 pour initialiser l'horloge")
@@ -99,10 +73,16 @@ def menu(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished):
         custom_time = False
     elif menu == "2" :
         custom_time = True
-        granny_clock = enter_time()
+        hours = int(input("rentrez le nombre d'heures\n"))
+        minutes = int(input("rentrez le nombre de minutes\n"))
+        seconds = int(input("rentrez le nombre de secondes\n"))
+        granny_clock = GrannyClock(hours, minutes, seconds)
     elif menu == "3":
         alarm = True
-        granny_alarm = enter_time()
+        hours = int(input("rentrez le nombre d'heures\n"))
+        minutes = int(input("rentrez le nombre de minutes\n"))
+        seconds = int(input("rentrez le nombre de secondes\n"))
+        alarme = GrannyClock(hours, minutes, seconds)
     elif menu == "4" :
         print("Tapez 1 pour affichage 12h")
         print("Tapez 2 pour affichage 24h")
@@ -113,16 +93,19 @@ def menu(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished):
             AMPM = False
     elif menu == "6":
         return (None, None, None, None, None, True)
-    return (AMPM, custom_time, granny_clock, granny_alarm, alarm, finished)
 
-def program_run(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished):
+    return (AMPM, custom_time, granny_clock, alarme, alarm, finished)
+
+
+def programme_run(AMPM, custom_time, granny_clock, alarme, alarm, finished):
 
     try :
-        fonctions = menu(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished)
+
+        fonctions = menu(AMPM, custom_time, granny_clock, alarme, alarm, finished)
         AMPM = fonctions[0]
         custom_time = fonctions[1]
         granny_clock = fonctions[2]
-        granny_alarm = fonctions[3]
+        alarme = fonctions[3]
         alarm = fonctions[4]
         finished = fonctions[5]
 
@@ -148,24 +131,20 @@ def program_run(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished):
             if alarm :
                 if not custom_time :
                     granny_clock = GrannyClock(  int(horloge.strftime("%H")), int(horloge.strftime("%M")), int(horloge.strftime("%S")) )
-                granny_clock.check_alarm(granny_alarm)
+                granny_clock.check_alarm(alarme)
 
             sleep(1)
             system("clear")
 
     except KeyboardInterrupt :
-        program_run(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished)
+        programme_run(AMPM, custom_time, granny_clock, alarme, alarm, finished)
 
 
 def main():
 
-    granny_alarm = None
     granny_clock = None
-
-    # boolean used to turn off the clock - breaking the while True loop
+    alarme = None
     finished = False
-
-    # boolean used to check wether we use an alarm, or not
     alarm = False
 
     # boolean used to check wether we use time system or custom time
@@ -174,7 +153,7 @@ def main():
     # boolean used to choose between 12hours and 24hours display
     AMPM = False
 
-    program_run(AMPM, custom_time, granny_clock, granny_alarm, alarm, finished)
+    programme_run(AMPM, custom_time, granny_clock, alarme, alarm, finished)
 
 
 main()
