@@ -56,11 +56,11 @@ def background_clock():
         current_time = datetime.now()
 
     while not stop_clock:
-        current_time += timedelta(seconds=1)
         # Check for alarm
         if user_alarm and current_time.strftime("%H:%M:%S") == user_alarm:
             print("\nALARM! DRINNNNG DRINNNNG!")
             user_alarm = None  # Reset alarm after it rings
+        current_time += timedelta(seconds=1)
         time.sleep(1)
 
 
