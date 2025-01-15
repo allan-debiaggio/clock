@@ -3,23 +3,23 @@ import datetime
 
 
 def menu():
-    while True:
-        afficher_menu()  # Affiche les options du menu
-        choix = input("Choisissez une option (1-3): ")
+    try :
+        while True:
+            afficher_menu()  # Affiche les options du menu
+            choix = input("Choisissez une option (1-2): ")
 
-        if choix == "1":
-            regler_heure_manuel()
-        elif choix == "2":
-            afficher_heure_actu()
-        elif choix == "3":
-            alarme()
+            if choix == "1":
+                regler_heure_manuel()
+            elif choix == "2":
+                alarme()
+    except KeyboardInterrupt :
+        print("\nSortie du programme...")
 
 
 def afficher_menu():
     print("=== MENU ===")
     print("1. Régler l'heure")
-    print("2. Afficher l'heure actuelle")
-    print("3. Alarme")
+    print("2. Alarme")
 
 def regler_heure(heure, minutes, secondes):
     # On utilise un tuple directement et on vérifie la validité des valeurs
@@ -53,23 +53,15 @@ def incrementer_secondes(heure, minutes, secondes):
         time.sleep(1)
 
 def regler_heure_manuel() :
-    # Exemple d'utilisation
-    heure = int(input("Entrez l'heure (0-23) : "))
-    minutes = int(input("Entrez les minutes (0-59) : "))
-    secondes = int(input("Entrez les secondes (0-59) : "))
-    # Lancer l'incrémentation continue des secondes
-    incrementer_secondes(heure, minutes, secondes)
-
-
-
-# heure système
-def afficher_heure_actu():
-    while True:
-        heure_actuelle = datetime.datetime.now()
-        format_heure_actuelle = heure_actuelle.strftime("%H:%M:%S")  # Date et heure actuelles
-        print(f"\r{format_heure_actuelle}",end='',flush=True)
-        time.sleep(1)
-        
+    try :
+        # Exemple d'utilisation
+        heure = int(input("Entrez l'heure (0-23) : "))
+        minutes = int(input("Entrez les minutes (0-59) : "))
+        secondes = int(input("Entrez les secondes (0-59) : "))
+        # Lancer l'incrémentation continue des secondes
+        incrementer_secondes(heure, minutes, secondes)
+    except KeyboardInterrupt :
+        print("Retour au menu...")
 
     
 # Alarme
@@ -78,9 +70,10 @@ def alarme(heure, minutes, secondes):
         heure = int(input("Entrez l'heure (0-23) : "))
         minutes = int(input("Entrez les minutes (0-59) : "))
         secondes = int(input("Entrez les secondes (0-59) : "))
-        if alarme(heure, minutes, secondes) == regler_heure_manuel() :
+        if alarme(heure,minutes,secondes) == regler_heure_manuel():
             print("DRING DRING !!!")
 
-
+menu()
+    
 
 
